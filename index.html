@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Barışalım mı?</title>
+  <style>
+    body {
+      background-color: #ffe6f0;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 100px;
+      z-index: 10;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #yes {
+      background-color: #4CAF50;
+      color: white;
+      z-index: 2;
+    }
+
+    #no {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #final {
+      margin-top: 50px;
+      font-size: 24px;
+    }
+
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      color: #ff69b4;
+      animation: float 5s linear infinite;
+      font-size: 20px;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts"></div>
+  <div class="container">
+    <h1>Barışalım mı? ❤️</h1>
+    <div id="buttons">
+      <button id="yes">Evet</button>
+      <button id="no">Hayır</button>
+    </div>
+    <div id="final" style="display:none;">
+      <h2>Seni çok seviyorum! 💌</h2>
+      <p>İyi ki varsın...</p>
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById('yes');
+    const noBtn = document.getElementById('no');
+    const final = document.getElementById('final');
+    const buttons = document.getElementById('buttons');
+    let noClickCount = 0;
+
+    const noTexts = [
+      "Emin misin? 🥺",
+      "Son kez soruyorum... 😢",
+      "Gerçekten hayır mı? 😞",
+      "Lütfen... 😔",
+      "İçinden evet demek gelmiyor mu? 😩",
+      "Hâlâ mı hayır diyorsun? 😭"
+    ];
+
+    noBtn.addEventListener('click', () => {
+      noClickCount++;
+
+      // Yeşil buton büyür
+      let scale = 1 + noClickCount * 0.2;
+      yesBtn.style.transform = `scale(${scale})`;
+
+      // Hayır butonu text değiştir
+      if (noClickCount < noTexts.length) {
+        noBtn.textContent = noTexts[noClickCount];
+      } else {
+        noBtn.style.display = "none";
+      }
+    });
+
+    yesBtn.addEventListener('click', () => {
+      buttons.style.display = "none";
+      final.style.display = "block";
+    });
+
+    // Kalpler
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+      document.querySelector(".hearts").appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
